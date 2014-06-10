@@ -3,6 +3,8 @@ package com.example.businesscardexchanger.app;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -31,7 +33,7 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .add(R.id.container, new PlaceholderFragment(),"register")
                     .commit();
         }
     }
@@ -84,9 +86,17 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Toast toast = Toast.makeText("Information Successfuly Recorded",Toast.LENGTH_SHORT);
+        Toast toast = Toast.makeText(getApplicationContext(),"Information Successfuly Recorded",Toast.LENGTH_SHORT);
 
         toast.show();
+
+        FragmentManager fm = getFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        BoardFragment next = new BoardFragment();
+        ft.replace(R.id.container,next,"register");
+        ft.addToBackStack(null);
+        ft.commit();
+
     }
 
 
