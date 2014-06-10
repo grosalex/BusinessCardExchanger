@@ -3,6 +3,7 @@ package com.example.businesscardexchanger.app;
 import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -10,7 +11,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 
 public class MainActivity extends Activity {
@@ -46,19 +56,38 @@ public class MainActivity extends Activity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class PlaceholderFragment extends Fragment {
+    public void saveProfile(View view) {
+        String name = new String(((EditText)findViewById(R.id.editTextName)).getText().toString());
+        String family = new String(((EditText)findViewById(R.id.editTextFamily)).getText().toString());
+        String email = new String(((EditText)findViewById(R.id.editTextEmail)).getText().toString());
+        String phone = new String(((EditText)findViewById(R.id.editTextPhone)).getText().toString());
 
-        public PlaceholderFragment() {
+        JSONObject save = new JSONObject();
+
+        try {
+            save.put("name",name);
+            save.put("family",family);
+            save.put("email",email);
+            save.put("phone",phone);
+        } catch (JSONException e) {
+            e.printStackTrace();
         }
 
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                Bundle savedInstanceState) {
-            View rootView = inflater.inflate(R.layout.fragment_main, container, false);
-            return rootView;
+        File file = new File(getFilesDir(),getString(R.string.my_info));
+        FileOutputStream outputStream;
+        try {
+            outputStream = openFileOutput(getString(R.string.my_info), Context.MODE_PRIVATE);
+            outputStream.write(save.toString().getBytes());
+            outputStream.close();
+        }catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        Toast toast = Toast.makeText("Information Successfuly Recorded",Toast.LENGTH_SHORT);
+
+        toast.show();
     }
+
+
 }
