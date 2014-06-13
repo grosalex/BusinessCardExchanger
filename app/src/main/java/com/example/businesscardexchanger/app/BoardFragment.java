@@ -53,8 +53,15 @@ public class BoardFragment extends Fragment {
     }
     private void setMyInfoInText(){
         TextView name = (TextView)rootView.findViewById(R.id.textViewMyName);
+        TextView familyName = (TextView)rootView.findViewById(R.id.textViewMyFamily);
+        TextView phone = (TextView)rootView.findViewById(R.id.textViewMyPhone);
+        TextView email = (TextView)rootView.findViewById(R.id.textViewMyEmail);
+
         try {
             name.setText(myself.get("name").toString());
+            familyName.setText(myself.get("family").toString());
+            phone.setText(myself.get("phone").toString());
+            email.setText(myself.get("email").toString());
         }catch (JSONException e){
             e.printStackTrace();
         }
