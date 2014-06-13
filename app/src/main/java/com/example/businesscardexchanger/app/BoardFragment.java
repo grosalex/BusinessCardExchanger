@@ -5,8 +5,16 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
+import android.widget.Toast;
 
+import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.InputStream;
 
@@ -15,15 +23,40 @@ import java.io.InputStream;
  */
 public class BoardFragment extends Fragment {
     private JSONObject myself = null;
+    private View rootView;
     public BoardFragment(){
-
-        //InputStream inputStream = openFileInput(getString(R.string.my_info));
 
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.board_fragment, container, false);
+        rootView = inflater.inflate(R.layout.board_fragment, container, false);
+        String inputString;
+        StringBuffer stringBuffer = new StringBuffer();
+        try {
+            FileInputStream myFile = getActivity().openFileInput(getString(R.string.my_info));
+            BufferedReader inputReader = new BufferedReader(new InputStreamReader(myFile));
+            while ((inputString = inputReader.readLine()) != null) {
+                stringBuffer.append(inputString + "\n");
+            }
+            myself=new JSONObject(stringBuffer.toString());
+            //((TextView)this.getView().findViewById(R.id.textViewMyName)).setText(myInfo.get("name").toString());
+            setMyInfoInText();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         return rootView;
+    }
+    private void setMyInfoInText(){
+        TextView name = (TextView)rootView.findViewById(R.id.textViewMyName);
+        try {
+            name.setText(myself.get("name").toString());
+        }catch (JSONException e){
+            e.printStackTrace();
+        }
     }
 }

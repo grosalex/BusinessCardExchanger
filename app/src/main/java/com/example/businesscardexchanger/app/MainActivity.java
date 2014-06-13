@@ -86,9 +86,8 @@ public class MainActivity extends Activity {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Toast toast = Toast.makeText(getApplicationContext(),"Information Successfuly Recorded",Toast.LENGTH_SHORT);
+        Toast.makeText(getApplicationContext(),"Information Successfuly Recorded",Toast.LENGTH_SHORT).show();
 
-        toast.show();
 
         FragmentManager fm = getFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
