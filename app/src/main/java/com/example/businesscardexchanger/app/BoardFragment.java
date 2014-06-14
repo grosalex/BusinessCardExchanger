@@ -52,10 +52,12 @@ public class BoardFragment extends Fragment {
         return rootView;
     }
     private void setMyInfoInText(){
+
         TextView name = (TextView)rootView.findViewById(R.id.textViewMyName);
         TextView familyName = (TextView)rootView.findViewById(R.id.textViewMyFamily);
-        TextView phone = (TextView)rootView.findViewById(R.id.textViewMyPhone);
         TextView email = (TextView)rootView.findViewById(R.id.textViewMyEmail);
+        TextView phone = (TextView)rootView.findViewById(R.id.textViewMyPhone);
+
 
         try {
             name.setText(myself.get("name").toString());
