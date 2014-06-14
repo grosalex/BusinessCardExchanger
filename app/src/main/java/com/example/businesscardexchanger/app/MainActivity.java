@@ -33,7 +33,6 @@ import java.io.IOException;
 
 
 public class MainActivity extends Activity {
-    ActionBar actionBar;
     private DrawerLayout mDrawerLayout;
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -74,6 +73,7 @@ public class MainActivity extends Activity {
 
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
+
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.container, new PlaceholderFragment(),"register")
                     .commit();
