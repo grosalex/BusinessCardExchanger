@@ -2,6 +2,7 @@ package com.example.businesscardexchanger.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.app.DialogFragment;
@@ -15,8 +16,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
@@ -64,9 +67,36 @@ public class ModifyDialogFragment extends DialogFragment {
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                //TODO save modification
+                String name = new String(((EditText)view.findViewById(R.id.editTextName)).getText().toString());
+                String family = new String(((EditText)view.findViewById(R.id.editTextFamily)).getText().toString());
+                String email = new String(((EditText)view.findViewById(R.id.editTextEmail)).getText().toString());
+                String phone = new String(((EditText)view.findViewById(R.id.editTextPhone)).getText().toString());
+
+                try {
+                    myself.put("name", name);
+                    myself.put("family", family);
+                    myself.put("email", email);
+                    myself.put("phone", phone);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
             }
+            File file = new File(getActivity().getFilesDir(),getString(R.string.my_info));
+            FileOutputStream outputStream;
+
+                try {
+                    outputStream = getActivity().openFileOutput(getString(R.string.my_info), Context.MODE_PRIVATE);
+                    outputStream.write(myself.toString().getBytes());
+                    outputStream.close();
+
+                } catch (FileNotFoundException e1) {
+                    e1.printStackTrace();
+                } catch (IOException e1) {
+                    e1.printStackTrace();
+                }
+
         });
+
         return builder.create();
 
     }
