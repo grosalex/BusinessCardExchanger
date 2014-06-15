@@ -7,6 +7,9 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.res.Configuration;
+import android.net.Uri;
+import android.nfc.NfcAdapter;
+import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
@@ -37,6 +40,21 @@ public class MainActivity extends Activity {
     private ListView mDrawerList;
     private ActionBarDrawerToggle mDrawerToggle;
     private String mTitle="BusinessCardExchanger";
+    private NfcAdapter mNfcAdapter;
+    private Uri[] mFileUris = new Uri[10];
+    private FileUriCallback mFileUriCallback;
+
+    private class FileUriCallback implements NfcAdapter.CreateBeamUrisCallback {
+        public FileUriCallback() {
+        }
+        /**
+         * Create content URIs as needed to share with another device
+         */
+        @Override
+        public Uri[] createBeamUris(NfcEvent event) {
+            return mFileUris;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +92,14 @@ public class MainActivity extends Activity {
         getActionBar().setDisplayHomeAsUpEnabled(true);
         getActionBar().setHomeButtonEnabled(true);
 
+        mNfcAdapter = NfcAdapter.getDefaultAdapter(this);
+        /*
+         * Instantiate a new FileUriCallback to handle requests for
+         * URIs
+         */
+        mFileUriCallback = new FileUriCallback();
+        // Set the dynamic callback for URI requests.
+        mNfcAdapter.setBeamPushUrisCallback(mFileUriCallback,this);
         if (savedInstanceState == null) {
             getFragmentManager().beginTransaction().replace(R.id.container, new PlaceholderFragment(),"register")
                     .commit();
@@ -198,6 +224,7 @@ public class MainActivity extends Activity {
 
 
     public void Share(View view) {
+
     }
 
     public void Modify(View view) {

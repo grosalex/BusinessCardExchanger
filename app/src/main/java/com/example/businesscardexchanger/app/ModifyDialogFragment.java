@@ -67,6 +67,7 @@ public class ModifyDialogFragment extends DialogFragment {
         builder.setPositiveButton("Save", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+
                 String name = new String(((EditText)view.findViewById(R.id.editTextName)).getText().toString());
                 String family = new String(((EditText)view.findViewById(R.id.editTextFamily)).getText().toString());
                 String email = new String(((EditText)view.findViewById(R.id.editTextEmail)).getText().toString());
@@ -80,9 +81,8 @@ public class ModifyDialogFragment extends DialogFragment {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-            }
-            File file = new File(getActivity().getFilesDir(),getString(R.string.my_info));
-            FileOutputStream outputStream;
+                File file = new File(getActivity().getFilesDir(),getString(R.string.my_info));
+                FileOutputStream outputStream;
 
                 try {
                     outputStream = getActivity().openFileOutput(getString(R.string.my_info), Context.MODE_PRIVATE);
@@ -94,9 +94,9 @@ public class ModifyDialogFragment extends DialogFragment {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+            }
 
         });
-
         return builder.create();
 
     }
