@@ -2,6 +2,7 @@ package com.example.businesscardexchanger.app;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
@@ -94,6 +95,11 @@ public class ModifyDialogFragment extends DialogFragment {
                 } catch (IOException e1) {
                     e1.printStackTrace();
                 }
+                dialog.dismiss();
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction()
+                        .replace(R.id.container, new BoardFragment())
+                        .commit();
             }
 
         });
