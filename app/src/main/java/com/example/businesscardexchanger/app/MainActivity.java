@@ -6,6 +6,7 @@ import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.nfc.NfcAdapter;
@@ -13,6 +14,7 @@ import android.nfc.NfcEvent;
 import android.os.Bundle;
 import android.support.v4.app.ActionBarDrawerToggle;
 import android.support.v4.widget.DrawerLayout;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -43,9 +45,24 @@ public class MainActivity extends Activity {
     private NfcAdapter mNfcAdapter;
     private Uri[] mFileUris = new Uri[10];
     private FileUriCallback mFileUriCallback;
+    private Uri fileUri;
+    private Intent mIntent;
+    private File mParentPath;
+
 
     private class FileUriCallback implements NfcAdapter.CreateBeamUrisCallback {
         public FileUriCallback() {
+            String transferFile = getString(R.string.my_info);
+            File extDir = getExternalFilesDir(null);
+            File requestFile = new File(extDir, transferFile);
+            requestFile.setReadable(true, false);
+            // Get a URI for the File and add it to the list of URIs
+            fileUri = Uri.fromFile(requestFile);
+            if (fileUri != null) {
+                mFileUris[0] = fileUri;
+            } else {
+                Log.e("My Activity", "No File URI available for file.");
+            }
         }
         /**
          * Create content URIs as needed to share with another device
@@ -55,7 +72,14 @@ public class MainActivity extends Activity {
             return mFileUris;
         }
     }
-
+    public String handleFileUri(Uri beamUri) {
+        // Get the path part of the URI
+        String fileName = beamUri.getPath();
+        // Create a File object for this filename
+        File copiedFile = new File(fileName);
+        // Get a string containing the file's parent directory
+        return copiedFile.getParent();
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -222,7 +246,28 @@ public class MainActivity extends Activity {
 
     }
 
-
+    private void handleViewIntent() {
+        // Get the Intent action
+        mIntent = getIntent();
+        String action = mIntent.getAction();
+        /*
+         * For ACTION_VIEW, the Activity is being asked to display data.
+         * Get the URI.
+         */
+        if (TextUtils.equals(action, Intent.ACTION_VIEW)) {
+            // Get the URI from the Intent
+            Uri beamUri = mIntent.getData();
+            /*
+             * Test for the type of URI, by getting its scheme value
+             */
+            if (TextUtils.equals(beamUri.getScheme(), "file")) {
+               // mParentPath = handleFileUri(beamUri);
+            } else if (TextUtils.equals(
+                    beamUri.getScheme(), "content")) {
+                //mParentPath = handleContentUri(beamUri);
+            }
+        }
+    }
     public void Share(View view) {
 
     }

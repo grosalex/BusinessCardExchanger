@@ -2,8 +2,8 @@
 <pre-dex-items>
 
     <item
-        dex="/home/grosalex/AndroidStudioProjects/BusinessCardExchanger/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-b07274811606849ae12d2d9052a0307ae9ee1a13.jar"
-        jar="/home/grosalex/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
+        dex="/home/grosalex/AndroidStudioProjects/BusinessCardExchanger/app/build/intermediates/pre-dexed/debug/support-v4-19.1.0-1cde5f6c9539f59f16e4ed2dd17157e05e0dde8e.jar"
+        jar="/home/grosalex/android/android-studio/sdk/extras/android/m2repository/com/android/support/support-v4/19.1.0/support-v4-19.1.0.jar"
         jumboMode="false"
         revision="19.1.0"
         sha1="85f201b380937e61a9dce6ca90ccf6872abbfb67"/>

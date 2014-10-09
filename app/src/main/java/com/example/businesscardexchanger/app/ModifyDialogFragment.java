@@ -102,10 +102,10 @@ public class ModifyDialogFragment extends DialogFragment {
     }
     public void setMyInfoInText(){
         try {
-            ((EditText)view.findViewById(R.id.editTextName)).setHint(myself.getString("name"));
-            ((EditText)view.findViewById(R.id.editTextFamily)).setHint(myself.getString("family"));
-            ((EditText)view.findViewById(R.id.editTextEmail)).setHint(myself.getString("email"));
-            ((EditText)view.findViewById(R.id.editTextPhone)).setHint(myself.getString("phone"));
+            ((EditText)view.findViewById(R.id.editTextName)).setText(myself.getString("name"));
+            ((EditText)view.findViewById(R.id.editTextFamily)).setText(myself.getString("family"));
+            ((EditText)view.findViewById(R.id.editTextEmail)).setText(myself.getString("email"));
+            ((EditText)view.findViewById(R.id.editTextPhone)).setText(myself.getString("phone"));
 
         } catch (JSONException e) {
             e.printStackTrace();
